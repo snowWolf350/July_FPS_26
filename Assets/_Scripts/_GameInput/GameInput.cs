@@ -9,6 +9,7 @@ public class GameInput : MonoBehaviour
     PlayerInput _playerInput;
 
     public event EventHandler OnSpaceBarPressed;
+    public event EventHandler OnLeftMousePressed;
 
     //camera
     Vector2 _mouseInputVector;
@@ -32,8 +33,20 @@ public class GameInput : MonoBehaviour
         _playerInput.player.Enable();
 
         _playerInput.player.jump.performed += Jump_performed;
+        _playerInput.player.shoot.performed += Shoot_performed;
 
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void OnDisable()
+    {
+        _playerInput.player.jump.performed -= Jump_performed;
+        _playerInput.player.shoot.performed -= Shoot_performed;
+    }
+
+    private void Shoot_performed(InputAction.CallbackContext obj)
+    {
+        OnLeftMousePressed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
