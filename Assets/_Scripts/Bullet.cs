@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    float _bulletDamage = 30;
+
     public void Shoot(Vector3 velocity, Vector3 forward)
     {
         transform.up = forward;
@@ -11,7 +13,12 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Hit with : " + collision.gameObject.name);
+
+        if (collision.transform.TryGetComponent(out Enemy enemy))
+        {
+            enemy.GetEnemyHealth().TakeDamage(_bulletDamage);
+        }
+
         Destroy(gameObject);
     }
 }

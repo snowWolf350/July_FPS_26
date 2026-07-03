@@ -10,6 +10,7 @@ public class GameInput : MonoBehaviour
 
     public event EventHandler OnSpaceBarPressed;
     public event EventHandler OnLeftMousePressed;
+    public event EventHandler OnEPressed;
 
     //camera
     Vector2 _mouseInputVector;
@@ -34,14 +35,19 @@ public class GameInput : MonoBehaviour
 
         _playerInput.player.jump.performed += Jump_performed;
         _playerInput.player.shoot.performed += Shoot_performed;
+        _playerInput.player.hack.performed += Hack_performed;
 
         Cursor.lockState = CursorLockMode.Locked;
     }
-
     private void OnDisable()
     {
         _playerInput.player.jump.performed -= Jump_performed;
         _playerInput.player.shoot.performed -= Shoot_performed;
+        _playerInput.player.hack.performed -= Hack_performed;
+    }
+    private void Hack_performed(InputAction.CallbackContext obj)
+    {
+        OnEPressed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Shoot_performed(InputAction.CallbackContext obj)

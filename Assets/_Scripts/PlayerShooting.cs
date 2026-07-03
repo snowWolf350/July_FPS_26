@@ -7,6 +7,14 @@ public class PlayerShooting : MonoBehaviour
 
     float _shootForce = 30f;
 
+    Health _playerHealth;
+
+    private void Awake()
+    {
+
+        _playerHealth = new Health(100);
+    }
+
 
     private void Start()
     {
