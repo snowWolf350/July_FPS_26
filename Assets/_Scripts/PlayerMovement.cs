@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance;
+
     float _moveSpeed = 15;
     float gravity = -9.8f;
     float jumpHeight = 10;
@@ -16,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
     //camera
     private float xRotation = 0;
     private float yRotation = 0;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -75,4 +82,8 @@ public class PlayerMovement : MonoBehaviour
             _upwardVelocity.y = Mathf.Sqrt(-2 * gravity * jumpHeight);
     }
 
+    public Vector3 GetPlayerPosition()
+    {
+        return transform.position;
+    }
 }

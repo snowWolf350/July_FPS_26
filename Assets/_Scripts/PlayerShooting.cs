@@ -5,7 +5,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] GameObject _bulletGameObject;
     [SerializeField] Transform _shootTransform;
 
-    float _shootForce = 30f;
+    float _shootForce = 10;
 
     Health _playerHealth;
 
@@ -25,6 +25,11 @@ public class PlayerShooting : MonoBehaviour
     {
         GameObject spawnedBullet = Instantiate(_bulletGameObject,_shootTransform.position,Quaternion.identity);
         //spawnedBullet.GetComponent<Rigidbody>().AddForce(_shootTransform.forward * _shootForce, ForceMode.Impulse);
-        spawnedBullet.GetComponent<Bullet>().Shoot(_shootTransform.forward * _shootForce, _shootTransform.forward);
+        spawnedBullet.GetComponent<PlayerBullet>().Shoot(_shootTransform.forward * _shootForce, _shootTransform.forward);
+    }
+
+    public Health GetPlayerHealth()
+    {
+        return _playerHealth;
     }
 }

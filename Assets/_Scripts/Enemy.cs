@@ -4,6 +4,14 @@ public class Enemy : MonoBehaviour
 {
     Health _enemyHealth;
 
+    //shooting 
+    [SerializeField] Transform _shootTransform;
+    [SerializeField] GameObject _bulletGameObject;
+    float _fireRate = 3;
+    float _fireTimer;
+    float _shootForce = 7;
+    float _playerHeight = 0.5f;
+
     private void Awake()
     {
         _enemyHealth = new Health(100);
@@ -13,6 +21,34 @@ public class Enemy : MonoBehaviour
     {
         _enemyHealth.OnDamange += _enemyHealth_OnDamange;
         _enemyHealth.onDeath += _enemyHealth_onDeath;
+    }
+
+
+    private void Update()
+    {
+        HandleShooting();
+        HandleMovement();
+    }
+
+    void HandleMovement()
+    {
+        transform.LookAt(PlayerMovement.Instance.GetPlayerPosition() + new Vector3(0, _playerHeight, 0));
+    }
+
+    void HandleShooting()
+    {
+        _fireTimer += Time.deltaTime;
+
+        if (_fireTimer < _fireRate) return;
+
+        _fireTimer = 0;
+
+        Vector3 shootDir = PlayerMovement.Instance.GetPlayerPosition() - transform.position;
+
+        Debug.DrawRay(_shootTransform.position, shootDir,Color.red,999);
+
+        GameObject spawnedBullet = Instantiate(_bulletGameObject, _shootTransform.position, Quaternion.identity);
+        spawnedBullet.GetComponent<EnemyBulllet>().Shoot(shootDir * _shootForce, _shootTransform.forward);
     }
 
     private void OnDestroy()

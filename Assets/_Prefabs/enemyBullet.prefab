@@ -101,9 +101,9 @@ GameObject:
   - component: {fileID: 3101106036305490998}
   - component: {fileID: 8827626792448181561}
   - component: {fileID: 7263381852926017700}
-  - component: {fileID: 6765901907775236692}
+  - component: {fileID: -1146227370760599975}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: enemyBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,9 +149,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!136 &7263381852926017700
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -165,7 +165,7 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -175,7 +175,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6765901907775236692
+--- !u!114 &-1146227370760599975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,6 +184,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7177676027657797773}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f5d10b099997654d8cc84f74ab577d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 41280205629101e40a43f93f509f2739, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Bullet
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBulllet
