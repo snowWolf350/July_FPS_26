@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class Enemy : MonoBehaviour
     float _fireTimer;
     float _shootForce = 7;
     float _playerHeight = 0.5f;
+    float _minStopDistance = 7;
+    float _maxStopDistance = 14;
+    float _stopDistance;
+
+    NavMeshAgent _navMeshAgent;
 
     private void Awake()
     {
@@ -21,6 +27,10 @@ public class Enemy : MonoBehaviour
     {
         _enemyHealth.OnDamange += _enemyHealth_OnDamange;
         _enemyHealth.onDeath += _enemyHealth_onDeath;
+
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+
+        _stopDistance = Random.Range(_minStopDistance, _maxStopDistance);
     }
 
 
@@ -32,7 +42,25 @@ public class Enemy : MonoBehaviour
 
     void HandleMovement()
     {
-        transform.LookAt(PlayerMovement.Instance.GetPlayerPosition() + new Vector3(0, _playerHeight, 0));
+        Vector3 playerPosition = PlayerMovement.Instance.GetPlayerPosition();
+
+        transform.LookAt(playerPosition + new Vector3(0, _playerHeight, 0));
+
+        float distance = Vector3.Distance(transform.position, playerPosition);
+        Debug.Log(distance);
+
+        if (distance < _stopDistance)
+        {
+            _navMeshAgent.isStopped = true;
+            return;
+        }
+
+        if (_navMeshAgent.isStopped)
+        {
+            _navMeshAgent.isStopped = false;
+        }
+
+        _navMeshAgent.SetDestination(playerPosition);
     }
 
     void HandleShooting()
