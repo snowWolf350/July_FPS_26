@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
+    public static PlayerShooting Instance;
+
     [SerializeField] GameObject _bulletGameObject;
     [SerializeField] Transform _shootTransform;
 
-    float _shootForce = 10;
+    float _shootForce = 30;
 
     Health _playerHealth;
 
     private void Awake()
     {
-
+        Instance = this;
         _playerHealth = new Health(100);
     }
 

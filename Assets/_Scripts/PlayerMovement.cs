@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     float fallSpeed = 5;
 
     bool _isGrounded;
+    float _jumpBufferTimer;
 
     CharacterController _characterController;
 
@@ -41,6 +43,18 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         HandleCamera();
+
+
+        //handle jump buffer 
+        if (_jumpBufferTimer < 0) return;
+
+        _jumpBufferTimer -= Time.deltaTime;
+
+        if (_jumpBufferTimer > 0 && _isGrounded)
+        {
+            _upwardVelocity.y = Mathf.Sqrt(-2 * gravity * jumpHeight);
+            _jumpBufferTimer = 0;
+        }
     }
 
     private void FixedUpdate()
@@ -78,8 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void GameInput_OnSpaceBarPressed(object sender, System.EventArgs e)
     {
-        if (_isGrounded)
-            _upwardVelocity.y = Mathf.Sqrt(-2 * gravity * jumpHeight);
+        _jumpBufferTimer = 0.25f;
     }
 
     public Vector3 GetPlayerPosition()

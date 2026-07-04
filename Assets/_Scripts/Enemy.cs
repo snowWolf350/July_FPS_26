@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject _bulletGameObject;
     float _fireRate = 3;
     float _fireTimer;
-    float _shootForce = 7;
+    float _shootForce = 20;
     float _playerHeight = 0.5f;
     float _minStopDistance = 7;
     float _maxStopDistance = 14;
@@ -47,7 +47,6 @@ public class Enemy : MonoBehaviour
         transform.LookAt(playerPosition + new Vector3(0, _playerHeight, 0));
 
         float distance = Vector3.Distance(transform.position, playerPosition);
-        Debug.Log(distance);
 
         if (distance < _stopDistance)
         {
