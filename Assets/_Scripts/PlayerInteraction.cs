@@ -7,11 +7,13 @@ public class PlayerInteraction : MonoBehaviour
 
     HackArea _currentHackArea;
 
-    public event EventHandler<OnHackAreaChangedEventArgs> OnHackAreaChanged;
-    public class OnHackAreaChangedEventArgs : EventArgs
+    public event EventHandler<HackAreaEventArgs> OnHackAreaChanged;
+    public class HackAreaEventArgs : EventArgs
     {
         public HackArea passedHackArea;
     }
+
+    public event EventHandler<HackAreaEventArgs> OnDroneDeployed;
 
     private void Awake()
     {
@@ -34,6 +36,10 @@ public class PlayerInteraction : MonoBehaviour
         if (_currentHackArea.HackAreaStateIs(HackArea.hackAreaState.idle) == false) return;
 
         _currentHackArea.SetHackAreaState(HackArea.hackAreaState.hacking);
+        OnDroneDeployed?.Invoke(this,new HackAreaEventArgs
+        {
+            passedHackArea = _currentHackArea,
+        });
 
         SetHackArea(null);
     }
@@ -42,7 +48,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         _currentHackArea = hackArea;
 
-        OnHackAreaChanged?.Invoke(this, new OnHackAreaChangedEventArgs
+        OnHackAreaChanged?.Invoke(this, new HackAreaEventArgs
         {
             passedHackArea = hackArea
         });

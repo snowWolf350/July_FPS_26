@@ -9,7 +9,7 @@ public class HackUI : MonoBehaviour
         Hide();
     }
 
-    private void PlayerInteraction_OnHackAreaChanged(object sender, PlayerInteraction.OnHackAreaChangedEventArgs e)
+    private void PlayerInteraction_OnHackAreaChanged(object sender, PlayerInteraction.HackAreaEventArgs e)
     {
         if (e.passedHackArea != null && e.passedHackArea.HackAreaStateIs(HackArea.hackAreaState.idle))
         {
