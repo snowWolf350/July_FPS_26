@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,10 @@ public class Enemy : MonoBehaviour
     //shooting 
     [SerializeField] Transform _shootTransform;
     [SerializeField] GameObject _bulletGameObject;
+    [SerializeField] GameObject _DamageVisual;
+
+    Coroutine _damageCoroutine;
+
     float _fireRate = 3;
     float _fireTimer;
     float _shootForce = 20;
@@ -15,6 +20,7 @@ public class Enemy : MonoBehaviour
     float _minStopDistance = 7;
     float _maxStopDistance = 14;
     float _stopDistance;
+    float _damageFlashTime = 0.15f;
 
     NavMeshAgent _navMeshAgent;
 
@@ -91,7 +97,22 @@ public class Enemy : MonoBehaviour
 
     private void _enemyHealth_OnDamange(object sender, System.EventArgs e)
     {
-        Debug.Log("enemyHit + " + _enemyHealth.GetHealthNormalized());
+        if (_damageCoroutine != null)
+        {
+            StopCoroutine(_damageCoroutine);
+        }
+
+        _damageCoroutine = StartCoroutine(DamageFlash());
+    }
+
+    IEnumerator DamageFlash()
+    {
+        _DamageVisual.SetActive(true);
+
+        yield return new WaitForSeconds(_damageFlashTime);
+
+        _DamageVisual.SetActive(false);
+        _damageCoroutine = null;
     }
 
     public Health GetEnemyHealth()

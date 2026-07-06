@@ -12,12 +12,14 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnLeftMousePressed;
     public event EventHandler OnEPressed;
     public event EventHandler OnEscapePressed;
+    public event EventHandler OnRPressed;
 
     //camera
     Vector2 _mouseInputVector;
     float _mouseSensitivity = 25;
 
     bool _mouseIsLocked;
+    bool _isSprinting;
 
     private void Awake()
     {
@@ -38,6 +40,9 @@ public class GameInput : MonoBehaviour
         _playerInput.player.shoot.performed += Shoot_performed;
         _playerInput.player.hack.performed += Hack_performed;
         _playerInput.player.esc.performed += Esc_performed;
+        _playerInput.player.reload.performed += Reload_performed;
+        _playerInput.player.sprint.performed += Sprint_performed;
+        _playerInput.player.sprint.canceled += Sprint_canceled; ;
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -48,8 +53,22 @@ public class GameInput : MonoBehaviour
         _playerInput.player.shoot.performed -= Shoot_performed;
         _playerInput.player.hack.performed -= Hack_performed;
         _playerInput.player.esc.performed -= Esc_performed;
+        _playerInput.player.reload.performed -= Reload_performed;
     }
 
+    private void Sprint_performed(InputAction.CallbackContext obj)
+    {
+        _isSprinting = true;
+    }
+    private void Sprint_canceled(InputAction.CallbackContext obj)
+    {
+        _isSprinting = false ;
+    }
+
+    private void Reload_performed(InputAction.CallbackContext obj)
+    {
+        OnRPressed?.Invoke(this, EventArgs.Empty);
+    }
     private void Esc_performed(InputAction.CallbackContext obj)
     {
         OnEscapePressed?.Invoke(this, EventArgs.Empty);
@@ -85,5 +104,9 @@ public class GameInput : MonoBehaviour
             return new Vector2(_mouseInputVector.x * _mouseSensitivity * Time.deltaTime, _mouseInputVector.y * _mouseSensitivity * Time.deltaTime);
   
         //return Vector2.zero;
+    }
+    public bool PlayerIsSprinting()
+    {
+        return _isSprinting;
     }
 }

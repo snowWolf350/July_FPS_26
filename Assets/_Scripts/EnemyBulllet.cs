@@ -13,7 +13,6 @@ public class EnemyBulllet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"Hit {collision.collider.name}, root = {collision.collider.transform.root.name}");
         if (collision.transform.TryGetComponent(out PlayerShooting playerShooting))
         {
             playerShooting.GetPlayerHealth().TakeDamage(_bulletDamage);

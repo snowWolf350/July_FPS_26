@@ -145,6 +145,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e010ccd-2166-4946-9613-253114b5f382"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""9caccc12-6c3b-4109-aacc-d1973cba19c5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -257,6 +275,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""esc"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ed584d26-71a1-4b0a-ac0e-9a06da719b32"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54ec71b8-8ba5-4396-8512-0391828d6ac1"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -271,6 +311,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_player_shoot = m_player.FindAction("shoot", throwIfNotFound: true);
         m_player_hack = m_player.FindAction("hack", throwIfNotFound: true);
         m_player_esc = m_player.FindAction("esc", throwIfNotFound: true);
+        m_player_reload = m_player.FindAction("reload", throwIfNotFound: true);
+        m_player_sprint = m_player.FindAction("sprint", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -357,6 +399,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_player_shoot;
     private readonly InputAction m_player_hack;
     private readonly InputAction m_player_esc;
+    private readonly InputAction m_player_reload;
+    private readonly InputAction m_player_sprint;
     /// <summary>
     /// Provides access to input actions defined in input action map "player".
     /// </summary>
@@ -392,6 +436,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "player/esc".
         /// </summary>
         public InputAction @esc => m_Wrapper.m_player_esc;
+        /// <summary>
+        /// Provides access to the underlying input action "player/reload".
+        /// </summary>
+        public InputAction @reload => m_Wrapper.m_player_reload;
+        /// <summary>
+        /// Provides access to the underlying input action "player/sprint".
+        /// </summary>
+        public InputAction @sprint => m_Wrapper.m_player_sprint;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -436,6 +488,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @esc.started += instance.OnEsc;
             @esc.performed += instance.OnEsc;
             @esc.canceled += instance.OnEsc;
+            @reload.started += instance.OnReload;
+            @reload.performed += instance.OnReload;
+            @reload.canceled += instance.OnReload;
+            @sprint.started += instance.OnSprint;
+            @sprint.performed += instance.OnSprint;
+            @sprint.canceled += instance.OnSprint;
         }
 
         /// <summary>
@@ -465,6 +523,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @esc.started -= instance.OnEsc;
             @esc.performed -= instance.OnEsc;
             @esc.canceled -= instance.OnEsc;
+            @reload.started -= instance.OnReload;
+            @reload.performed -= instance.OnReload;
+            @reload.canceled -= instance.OnReload;
+            @sprint.started -= instance.OnSprint;
+            @sprint.performed -= instance.OnSprint;
+            @sprint.canceled -= instance.OnSprint;
         }
 
         /// <summary>
@@ -547,5 +611,19 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEsc(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "reload" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReload(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSprint(InputAction.CallbackContext context);
     }
 }

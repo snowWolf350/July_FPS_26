@@ -5,10 +5,12 @@ public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement Instance;
 
-    float _moveSpeed = 15;
-    float gravity = -9.8f;
-    float jumpHeight = 10;
-    float fallSpeed = 5;
+    float _walkSpeed = 10;
+    float _sprintSpeed = 15;
+    float _moveSpeed;
+    float _gravity = -9.8f;
+    float _jumpHeight = 10;
+    float _fallSpeed = 5;
 
     bool _isGrounded;
     float _jumpBufferTimer;
@@ -52,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (_jumpBufferTimer > 0 && _isGrounded)
         {
-            _upwardVelocity.y = Mathf.Sqrt(-2 * gravity * jumpHeight);
+            _upwardVelocity.y = Mathf.Sqrt(-2 * _gravity * _jumpHeight);
             _jumpBufferTimer = 0;
         }
     }
@@ -76,7 +78,9 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-        Vector3 moveDir = GameInput.Instance.GetInputVectorNormalized();
+        _moveSpeed = GameInput.Instance.PlayerIsSprinting() ? _sprintSpeed : _walkSpeed;
+
+            Vector3 moveDir = GameInput.Instance.GetInputVectorNormalized();
 
         _isGrounded = _characterController.isGrounded;
 
@@ -85,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded && _upwardVelocity.y < 0)
             _upwardVelocity.y = -2f;
 
-        _upwardVelocity.y += gravity * fallSpeed * Time.fixedDeltaTime;
+        _upwardVelocity.y += _gravity * _fallSpeed * Time.fixedDeltaTime;
 
         _characterController.Move(_upwardVelocity * Time.fixedDeltaTime);
     }

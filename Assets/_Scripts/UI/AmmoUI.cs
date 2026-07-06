@@ -8,13 +8,13 @@ public class AmmoUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PlayerShooting.Instance.OnBulletShot += Instance_OnBulletShot;
+        PlayerShooting.Instance.OnAmmoChanged += Instance_OnBulletShot;
         PlayerShooting.Instance.OnEmptyMagShot += Instance_OnEmptyMagShot;
     }
 
     private void OnDestroy()
     {
-        PlayerShooting.Instance.OnBulletShot -= Instance_OnBulletShot;
+        PlayerShooting.Instance.OnAmmoChanged -= Instance_OnBulletShot;
         PlayerShooting.Instance.OnEmptyMagShot -= Instance_OnEmptyMagShot;
     }
 
