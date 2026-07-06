@@ -8,14 +8,18 @@ public class AmmoUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PlayerShooting.Instance.OnAmmoChanged += Instance_OnBulletShot;
+        PlayerShooting.Instance.OnBulletShot += Instance_OnBulletShot;
+        PlayerShooting.Instance.OnGunReloaded += Instance_OnGunReloaded;
         PlayerShooting.Instance.OnEmptyMagShot += Instance_OnEmptyMagShot;
     }
 
+
+
     private void OnDestroy()
     {
-        PlayerShooting.Instance.OnAmmoChanged -= Instance_OnBulletShot;
+        PlayerShooting.Instance.OnBulletShot -= Instance_OnBulletShot;
         PlayerShooting.Instance.OnEmptyMagShot -= Instance_OnEmptyMagShot;
+        PlayerShooting.Instance.OnGunReloaded -= Instance_OnGunReloaded;
     }
 
     private void Instance_OnEmptyMagShot(object sender, System.EventArgs e)
@@ -27,10 +31,8 @@ public class AmmoUI : MonoBehaviour
     {
         _ammoText.text = PlayerShooting.Instance.GetAmmoCount().ToString() + "/8";
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Instance_OnGunReloaded(object sender, System.EventArgs e)
     {
-        
+        _ammoText.text = PlayerShooting.Instance.GetAmmoCount().ToString() + "/8";
     }
 }

@@ -18,7 +18,8 @@ public class PlayerShooting : MonoBehaviour
 
     Health _playerHealth;
 
-    public event EventHandler OnAmmoChanged;
+    public event EventHandler OnBulletShot;
+    public event EventHandler OnGunReloaded;
     public event EventHandler OnEmptyMagShot;
 
     Coroutine _reloadCoroutine;
@@ -67,7 +68,7 @@ public class PlayerShooting : MonoBehaviour
             yield return new WaitForSeconds(ReloadTime);
 
             _currentBullets = _maximumBullets;
-            OnAmmoChanged?.Invoke(this, EventArgs.Empty);
+            OnGunReloaded?.Invoke(this, EventArgs.Empty);
             _reloadCoroutine = null;
     }
 
@@ -86,7 +87,7 @@ public class PlayerShooting : MonoBehaviour
         //spawnedBullet.GetComponent<Rigidbody>().AddForce(_shootTransform.forward * _shootForce, ForceMode.Impulse);
 
         spawnedBullet.GetComponent<PlayerBullet>().Shoot(aimDir * _shootForce, _shootTransform.forward);
-        OnAmmoChanged?.Invoke(this, EventArgs.Empty);
+        OnBulletShot?.Invoke(this, EventArgs.Empty);
         _currentBullets--;
     }
 
