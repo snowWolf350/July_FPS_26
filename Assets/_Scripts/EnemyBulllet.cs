@@ -4,9 +4,8 @@ public class EnemyBulllet : MonoBehaviour
 {
     float _bulletDamage = 30;
 
-    public void Shoot(Vector3 velocity, Vector3 forward)
+    public void Shoot(Vector3 velocity)
     {
-        transform.up = forward;
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         rb.linearVelocity = velocity;
     }

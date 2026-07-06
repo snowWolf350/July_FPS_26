@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     {
         GameInput.Instance.OnEscapePressed += GameInput_OnEscapePressed; 
         _currentGameState = GameState.inGame;
+        Time.timeScale = 1;
     }
     private void OnDestroy()
     {
@@ -69,5 +70,9 @@ public class GameManager : MonoBehaviour
     public bool GameIsPaused()
     {
         return _currentGameState == GameState.Paused;
+    }
+    public bool GameIsPlaying()
+    {
+        return _currentGameState == GameState.inGame;
     }
 }

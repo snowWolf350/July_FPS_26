@@ -53,6 +53,8 @@ public class PlayerShooting : MonoBehaviour
 
     private void GameInput_OnRPressed(object sender, EventArgs e)
     {
+
+        if (GameManager.Instance.GameIsPlaying() == false) return;
         if (_currentBullets == _maximumBullets) return;
 
         if (_reloadCoroutine != null)
@@ -74,6 +76,8 @@ public class PlayerShooting : MonoBehaviour
 
     private void GameInput_OnLeftMousePressed(object sender, System.EventArgs e)
     {
+        if(GameManager.Instance.GameIsPlaying() == false) return;
+
         if(_currentBullets < 0)
         {
             //empty mag
@@ -81,12 +85,14 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
         Vector3 aimDir = (mouseWorldPosition - _shootTransform.position).normalized;
-        GameObject spawnedBullet = Instantiate(_bulletGameObject, _shootTransform.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        GameObject spawnedBullet = Instantiate(_bulletGameObject, _shootTransform.position, Quaternion.LookRotation(aimDir));
 
         //GameObject spawnedBullet = Instantiate(_bulletGameObject,_shootTransform.position,Quaternion.identity);
         //spawnedBullet.GetComponent<Rigidbody>().AddForce(_shootTransform.forward * _shootForce, ForceMode.Impulse);
 
-        spawnedBullet.GetComponent<PlayerBullet>().Shoot(aimDir * _shootForce, _shootTransform.forward);
+        Debug.DrawLine(_shootTransform.position, aimDir, Color.red, 90);
+
+        spawnedBullet.GetComponent<PlayerBullet>().Shoot(aimDir * _shootForce);
         OnBulletShot?.Invoke(this, EventArgs.Empty);
         _currentBullets--;
     }

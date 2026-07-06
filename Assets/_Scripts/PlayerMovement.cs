@@ -44,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+
+        if (GameManager.Instance.GameIsPlaying() == false) return;
+
         HandleCamera();
 
 
@@ -61,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.GameIsPlaying() == false) return;
+
         HandleMovement();
     }
     void HandleCamera()

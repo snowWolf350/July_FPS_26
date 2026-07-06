@@ -31,6 +31,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void GameInput_OnEPressed(object sender, System.EventArgs e)
     {
+        if (GameManager.Instance.GameIsPlaying() == false) return;
         if (_currentHackArea == null) return;
 
         if (_currentHackArea.HackAreaStateIs(HackArea.hackAreaState.idle) == false) return;

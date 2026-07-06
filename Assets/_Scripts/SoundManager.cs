@@ -15,11 +15,11 @@ public class SoundManager : MonoBehaviour
 
     private void Instance_OnBulletShot(object sender, System.EventArgs e)
     {
-        _audioSource.PlayOneShot(_gunShotAudio);
+        _audioSource.PlayOneShot(_gunShotAudio,0.5f);
     }
 
     private void Instance_OnEmptyMagShot(object sender, System.EventArgs e)
     {
-        _audioSource.PlayOneShot(_emptyGunAudio);
+        _audioSource.PlayOneShot(_emptyGunAudio,0.5f);
     }
 }

@@ -78,10 +78,8 @@ public class Enemy : MonoBehaviour
 
         Vector3 shootDir = PlayerMovement.Instance.GetPlayerPosition() - transform.position;
 
-        Debug.DrawRay(_shootTransform.position, shootDir,Color.red,999);
-
-        GameObject spawnedBullet = Instantiate(_bulletGameObject, _shootTransform.position, Quaternion.identity);
-        spawnedBullet.GetComponent<EnemyBulllet>().Shoot(shootDir * _shootForce, _shootTransform.forward);
+        GameObject spawnedBullet = Instantiate(_bulletGameObject, _shootTransform.position, Quaternion.LookRotation(shootDir));
+        spawnedBullet.GetComponent<EnemyBulllet>().Shoot(shootDir * _shootForce);
     }
 
     private void OnDestroy()
