@@ -28,6 +28,11 @@ public class HackArea : MonoBehaviour
             case hackAreaState.idle:
                 break;
             case hackAreaState.hacking:
+                if(_hackTimer == 0)
+                {
+                    OnHackStarted?.Invoke(this, EventArgs.Empty);
+                }
+
                 _hackTimer += Time.deltaTime;
                 _hackProgress.fillAmount = (1 - _hackTimer / _hackTimeMax);
                 if( _hackTimer > _hackTimeMax )

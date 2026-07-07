@@ -1,11 +1,16 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     public event EventHandler OnGameStateChanged;
+
+    [SerializeField] List<HackArea> _hackAreaList;
+
+    int _hackAreaLeft;
 
     enum GameState
     {
@@ -20,10 +25,13 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        GameInput.Instance.OnEscapePressed += GameInput_OnEscapePressed; 
+        GameInput.Instance.OnEscapePressed += GameInput_OnEscapePressed;
+        PlayerInteraction.Instance.OnDroneDeployed += PlayerInteraction_OnDroneDeployed;
         _currentGameState = GameState.inGame;
         Time.timeScale = 1;
+        _hackAreaLeft = _hackAreaList.Count;
     }
+
     private void OnDestroy()
     {
         GameInput.Instance.OnEscapePressed -= GameInput_OnEscapePressed;
@@ -60,6 +68,27 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+
+
+    private void PlayerInteraction_OnDroneDeployed(object sender, PlayerInteraction.HackAreaEventArgs e)
+    {
+        foreach (HackArea hackArea in _hackAreaList)
+        {
+            if (hackArea == e.passedHackArea)
+            {
+                _hackAreaList.Remove(hackArea);
+                _hackAreaLeft--;
+
+                if (_hackAreaLeft == 0)
+                {
+                    SetGameState(GameState.finish);
+                }
+                return;
+            }
+        }
+    }
+
+
     void SetGameState(GameState gameState)
     {
         _currentGameState = gameState;
