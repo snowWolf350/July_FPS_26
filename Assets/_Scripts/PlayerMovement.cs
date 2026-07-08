@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     //camera
     private float xRotation = 0;
     private float yRotation = 0;
+    [SerializeField] Transform _cameraTransform;
 
     private void Awake()
     {
@@ -77,8 +78,10 @@ public class PlayerMovement : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         yRotation += mouseInput.x;
 
+        _cameraTransform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+
         // horizontal look
-        transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
+        transform.rotation = Quaternion.Euler(0, yRotation, 0f);
     }
 
     void HandleMovement()

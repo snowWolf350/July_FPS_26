@@ -59,7 +59,7 @@ public class PlayerShooting : MonoBehaviour
 
         if (_reloadCoroutine != null)
         {
-            StopCoroutine(_reloadCoroutine);
+            return;
         }
 
         _reloadCoroutine = StartCoroutine(Reload());
