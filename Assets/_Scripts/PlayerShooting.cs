@@ -90,8 +90,6 @@ public class PlayerShooting : MonoBehaviour
         //GameObject spawnedBullet = Instantiate(_bulletGameObject,_shootTransform.position,Quaternion.identity);
         //spawnedBullet.GetComponent<Rigidbody>().AddForce(_shootTransform.forward * _shootForce, ForceMode.Impulse);
 
-        Debug.DrawLine(_shootTransform.position, aimDir, Color.red, 90);
-
         spawnedBullet.GetComponent<PlayerBullet>().Shoot(aimDir * _shootForce);
         OnBulletShot?.Invoke(this, EventArgs.Empty);
         _currentBullets--;

@@ -21,8 +21,11 @@ public class Enemy : MonoBehaviour
     float _maxStopDistance = 14;
     float _stopDistance;
     float _damageFlashTime = 0.15f;
+    float _pathUpdateTimer;
 
     NavMeshAgent _navMeshAgent;
+
+    Vector3 _offset;
 
     private void Awake()
     {
@@ -36,7 +39,12 @@ public class Enemy : MonoBehaviour
 
         _navMeshAgent = GetComponent<NavMeshAgent>();
 
+        _navMeshAgent.avoidancePriority = Random.Range(0, 99);
+
         _stopDistance = Random.Range(_minStopDistance, _maxStopDistance);
+
+        Vector2 rand = Random.insideUnitCircle * 2f;
+        _offset = new Vector3(rand.x, 0, rand.y);
     }
 
 
@@ -48,6 +56,10 @@ public class Enemy : MonoBehaviour
 
     void HandleMovement()
     {
+
+        _pathUpdateTimer += Time.deltaTime;
+   
+
         Vector3 playerPosition = PlayerMovement.Instance.GetPlayerPosition();
 
         transform.LookAt(playerPosition + new Vector3(0, _playerHeight, 0));
@@ -65,7 +77,14 @@ public class Enemy : MonoBehaviour
             _navMeshAgent.isStopped = false;
         }
 
-        _navMeshAgent.SetDestination(playerPosition);
+        if (_pathUpdateTimer < 0.25f) return;
+
+        _pathUpdateTimer = 0;
+        Vector3 dir = (transform.position - playerPosition).normalized;
+
+        Vector3 targetPos = playerPosition + dir * _stopDistance;
+
+        _navMeshAgent.SetDestination(targetPos + _offset);
     }
 
     void HandleShooting()
@@ -90,6 +109,7 @@ public class Enemy : MonoBehaviour
 
     private void _enemyHealth_onDeath(object sender, System.EventArgs e)
     {
+        EnemySpawner.Instance.AddEnemyCount(-1);        
         Destroy(gameObject);
     }
 
