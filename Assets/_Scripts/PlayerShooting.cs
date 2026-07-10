@@ -85,8 +85,7 @@ public class PlayerShooting : MonoBehaviour
             return;
         }
         Vector3 aimDir = (mouseWorldPosition - _shootTransform.position).normalized;
-        GameObject spawnedBullet = Instantiate(_bulletGameObject, _shootTransform.position, Quaternion.LookRotation(aimDir));
-
+        GameObject spawnedBullet = Instantiate(_bulletGameObject, _shootTransform.position, Quaternion.identity);  
         //GameObject spawnedBullet = Instantiate(_bulletGameObject,_shootTransform.position,Quaternion.identity);
         //spawnedBullet.GetComponent<Rigidbody>().AddForce(_shootTransform.forward * _shootForce, ForceMode.Impulse);
 

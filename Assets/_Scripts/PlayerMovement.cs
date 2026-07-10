@@ -107,6 +107,15 @@ public class PlayerMovement : MonoBehaviour
         _jumpBufferTimer = 0.25f;
     }
 
+    public bool PlayerIsMoving()
+    {
+        if (_moveSpeed != 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public Vector3 GetPlayerPosition()
     {
         return transform.position;

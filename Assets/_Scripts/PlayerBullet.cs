@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerBullet : MonoBehaviour
 {
-    float _bulletDamage = 30;
+    int _bulletDamage = 30;
+    int _damageOffset = 10;
 
     public void Shoot(Vector3 velocity)
     {
@@ -15,7 +16,7 @@ public class PlayerBullet : MonoBehaviour
 
         if (collision.transform.TryGetComponent(out Enemy enemy))
         {
-            enemy.GetEnemyHealth().TakeDamage(_bulletDamage);
+            enemy.GetEnemyHealth().TakeDamage(_bulletDamage + Random.Range(0,_damageOffset));
         }
 
         Destroy(gameObject);

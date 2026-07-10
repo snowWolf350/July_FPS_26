@@ -5,8 +5,13 @@ public class Health
     float _maxHealth;
     float _currentHealth;
 
-    public event EventHandler OnDamange;
+    public event EventHandler<OnDamageEventArgs> OnDamange;
     public event EventHandler onDeath;
+
+    public class OnDamageEventArgs : EventArgs
+    {
+        public float damage;
+    }
     public Health   (float health)
     {
         _maxHealth = health;
@@ -21,7 +26,10 @@ public class Health
     public void TakeDamage(float damageAmount)
     {
         _currentHealth -= damageAmount;
-        OnDamange?.Invoke(this, EventArgs.Empty);
+        OnDamange?.Invoke(this, new OnDamageEventArgs
+        {
+            damage = damageAmount,
+        });
         if (_currentHealth <= 0)
         {
             //this died
